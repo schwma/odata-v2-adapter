@@ -730,6 +730,8 @@ function cov2ap(options = {}) {
   }
 
   function isServedViaOData(def) {
+    // see @sap/cds/lib/srv/protocols/index.js#protocols4
+
     // @protocol
     let atProtocol = def?.['@protocol']
     if (atProtocol) {
@@ -741,6 +743,7 @@ function cov2ap(options = {}) {
     const atProtocolDirect = Object.keys(cds.env.protocols).find(p => def?.['@'+p])
     if (atProtocolDirect) return atProtocolDirect.startsWith('odata')
 
+    // No protocol annotation found -> odata
     return true
   }
 
