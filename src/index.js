@@ -203,8 +203,7 @@ function cov2ap(options = {}) {
     return isMajor >= shouldMajor
   }
 
-  function getODataPathPrefix() {
-    if (!isCDSVersionGreaterEqual(7)) return ""
+  function getCDS7ODataPathPrefix() {
     return (cds.env?.protocols?.odata || cds.env?.protocols?.['odata-v4'])?.path || ""
   }
 
@@ -213,7 +212,7 @@ function cov2ap(options = {}) {
   const base = optionWithFallback("base", "");
   const path = optionWithFallback("path", isCDSVersionGreaterEqual(7) ? "odata/v2" : "v2");
   const sourcePath = `${base ? "/" + base : ""}/${path}`;
-  const targetPath = optionWithFallback("targetPath", getODataPathPrefix().replace(/^\//, ""));
+  const targetPath = optionWithFallback("targetPath", isCDSVersionGreaterEqual(7) ? getCDS7ODataPathPrefix().replace(/^\//, "") : "");
   const rewritePath = `${base ? "/" + base : ""}${targetPath ? "/" : ""}${targetPath}`;
   const pathRewrite = { [`^${sourcePath}`]: rewritePath };
   let port = optionWithFallback("port", process.env.PORT || DefaultPort);
@@ -684,7 +683,7 @@ function cov2ap(options = {}) {
       serviceName = Object.keys(cds.services).find((service) => {
         let path = cds.services[service].path;
         if (path) {
-          if (isCDSVersionGreaterEqual(7)) path = path.replace(getODataPathPrefix(), '')
+          if (isCDSVersionGreaterEqual(7)) path = path.replace(getCDS7ODataPathPrefix(), "")
           if (servicePath.toLowerCase().startsWith(normalizeSlashes(path).toLowerCase())) {
             servicePath = stripSlashes(path);
             return true;
