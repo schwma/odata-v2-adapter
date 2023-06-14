@@ -201,9 +201,9 @@ function cov2ap(options = {}) {
   const proxyCache = {};
   const router = express.Router();
   const base = optionWithFallback("base", "");
-  const path = optionWithFallback("path", "v2");
+  const path = optionWithFallback("path", cds.version.split('.').map(Number)[0] >= 7 ? "odata/v2" : "v2");
   const sourcePath = `${base ? "/" + base : ""}/${path}`;
-  const targetPath = optionWithFallback("targetPath", "");
+  const targetPath = optionWithFallback("targetPath", cds.version.split('.').map(Number)[0] >= 7 ? (cds.env?.protocols?.odata || cds.env?.protocols?.['odata-v4'])?.path.replace(/^\//, '') || "" : "");
   const rewritePath = `${base ? "/" + base : ""}${targetPath ? "/" : ""}${targetPath}`;
   const pathRewrite = { [`^${sourcePath}`]: rewritePath };
   let port = optionWithFallback("port", process.env.PORT || DefaultPort);
