@@ -701,8 +701,7 @@ function cov2ap(options = {}) {
     // if (
     //   serviceName &&
     //   req.csn.definitions[serviceName] &&
-    //   req.csn.definitions[serviceName]["@protocol"] &&
-    //   !req.csn.definitions[serviceName]["@protocol"].startsWith("odata")
+    //   !isServedViaOData(req.csn.definitions[serviceName])
     // ) {
     //   logWarn(req, "Service", "Invalid service protocol", {
     //     name: serviceName,
@@ -717,6 +716,21 @@ function cov2ap(options = {}) {
       path: servicePath,
       valid: serviceValid,
     };
+  }
+
+  function isServedViaOData(def) {
+    // @protocol
+    let atProtocol = def?.['@protocol']
+    if (atProtocol) {
+      if (!Array.isArray(atProtocol)) atProtocol = [atProtocol]
+      return atProtocol.some(p => (typeof p === 'string' ? p : p.kind).startsWith('odata'))
+    }
+
+    // @odata, @rest, ...
+    const atProtocolDirect = Object.keys(cds.env.protocols).find(p => def?.['@'+p])
+    if (atProtocolDirect) return atProtocolDirect.startsWith('odata')
+
+    return true
   }
 
   async function getMetadata(req, service) {
