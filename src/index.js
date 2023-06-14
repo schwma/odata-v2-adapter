@@ -198,12 +198,22 @@ function cov2ap(options = {}) {
     return fallback;
   };
 
+  function isCDSVersionGreaterEqual(shouldMajor) {
+    const [isMajor] = cds.version.split('.').map(Number)
+    return isMajor >= shouldMajor
+  }
+
+  function getODataPathPrefix() {
+    if (!isCDSVersionGreaterEqual(7)) return ""
+    return (cds.env?.protocols?.odata || cds.env?.protocols?.['odata-v4'])?.path || ""
+  }
+
   const proxyCache = {};
   const router = express.Router();
   const base = optionWithFallback("base", "");
-  const path = optionWithFallback("path", cds.version.split('.').map(Number)[0] >= 7 ? "odata/v2" : "v2");
+  const path = optionWithFallback("path", isCDSVersionGreaterEqual(7) ? "odata/v2" : "v2");
   const sourcePath = `${base ? "/" + base : ""}/${path}`;
-  const targetPath = optionWithFallback("targetPath", cds.version.split('.').map(Number)[0] >= 7 ? (cds.env?.protocols?.odata || cds.env?.protocols?.['odata-v4'])?.path.replace(/^\//, '') || "" : "");
+  const targetPath = optionWithFallback("targetPath", getODataPathPrefix().replace(/^\//, ""));
   const rewritePath = `${base ? "/" + base : ""}${targetPath ? "/" : ""}${targetPath}`;
   const pathRewrite = { [`^${sourcePath}`]: rewritePath };
   let port = optionWithFallback("port", process.env.PORT || DefaultPort);
