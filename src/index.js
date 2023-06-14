@@ -682,8 +682,9 @@ function cov2ap(options = {}) {
     });
     if (!serviceName) {
       serviceName = Object.keys(cds.services).find((service) => {
-        const path = cds.services[service].path;
+        let path = cds.services[service].path;
         if (path) {
+          if (isCDSVersionGreaterEqual(7)) path = path.replace(getODataPathPrefix(), '')
           if (servicePath.toLowerCase().startsWith(normalizeSlashes(path).toLowerCase())) {
             servicePath = stripSlashes(path);
             return true;
