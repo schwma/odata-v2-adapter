@@ -709,19 +709,19 @@ function cov2ap(options = {}) {
       });
       serviceValid = false;
     }
-    // if (
-    //   serviceName &&
-    //   req.csn.definitions[serviceName] &&
-    //   !isServedViaOData(req.csn.definitions[serviceName])
-    // ) {
-    //   logWarn(req, "Service", "Invalid service protocol", {
-    //     name: serviceName,
-    //     path: servicePath,
-    //   });
-    //   const error = new Error("Invalid service protocol. Only OData services supported");
-    //   error.statusCode = 400;
-    //   throw error;
-    // }
+    if (
+      serviceName &&
+      req.csn.definitions[serviceName] &&
+      !isServedViaOData(req.csn.definitions[serviceName])
+    ) {
+      logWarn(req, "Service", "Invalid service protocol", {
+        name: serviceName,
+        path: servicePath,
+      });
+      const error = new Error("Invalid service protocol. Only OData services supported");
+      error.statusCode = 400;
+      throw error;
+    }
     return {
       name: serviceName,
       path: servicePath,
