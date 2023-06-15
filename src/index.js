@@ -678,7 +678,7 @@ function cov2ap(options = {}) {
       serviceName = Object.keys(cds.services).find((service) => {
         let path = cds.services[service].path;
         if (path) {
-          if (cds.version >= "7") path = path.replace(getCDS7ODataPathPrefix(), "")
+          if (cds.version >= "7") path = path.replace(new RegExp(`^${getCDS7ODataPathPrefix()}`), "")
           if (servicePath.toLowerCase().startsWith(normalizeSlashes(path).toLowerCase())) {
             servicePath = stripSlashes(path);
             return true;
