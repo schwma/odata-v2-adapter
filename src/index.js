@@ -199,7 +199,7 @@ function cov2ap(options = {}) {
   };
 
   function getCDS7ODataPathPrefix() {
-    return (cds.env?.protocols?.odata || cds.env?.protocols?.['odata-v4'])?.path || ""
+    return (cds.env?.protocols?.odata || cds.env?.protocols?.["odata-v4"])?.path || "";
   }
 
   const proxyCache = {};
@@ -207,7 +207,10 @@ function cov2ap(options = {}) {
   const base = optionWithFallback("base", "");
   const path = optionWithFallback("path", cds.version >= "7" ? "odata/v2" : "v2");
   const sourcePath = `${base ? "/" + base : ""}/${path}`;
-  const targetPath = optionWithFallback("targetPath", cds.version >= "7" ? getCDS7ODataPathPrefix().replace(/^\//, "") : "");
+  const targetPath = optionWithFallback(
+    "targetPath",
+    cds.version >= "7" ? getCDS7ODataPathPrefix().replace(/^\//, "") : ""
+  );
   const rewritePath = `${base ? "/" + base : ""}${targetPath ? "/" : ""}${targetPath}`;
   const pathRewrite = { [`^${sourcePath}`]: rewritePath };
   let port = optionWithFallback("port", process.env.PORT || DefaultPort);
@@ -678,7 +681,7 @@ function cov2ap(options = {}) {
       serviceName = Object.keys(cds.services).find((service) => {
         let path = cds.services[service].path;
         if (path) {
-          if (cds.version >= "7") path = path.replace(new RegExp(`^${getCDS7ODataPathPrefix()}`), "")
+          if (cds.version >= "7") path = path.replace(new RegExp(`^${getCDS7ODataPathPrefix()}`), "");
           if (servicePath.toLowerCase().startsWith(normalizeSlashes(path).toLowerCase())) {
             servicePath = stripSlashes(path);
             return true;
@@ -703,11 +706,7 @@ function cov2ap(options = {}) {
       });
       serviceValid = false;
     }
-    if (
-      serviceName &&
-      req.csn.definitions[serviceName] &&
-      !isServedViaOData(req.csn.definitions[serviceName])
-    ) {
+    if (serviceName && req.csn.definitions[serviceName] && !isServedViaOData(req.csn.definitions[serviceName])) {
       logWarn(req, "Service", "Invalid service protocol", {
         name: serviceName,
         path: servicePath,
@@ -727,18 +726,18 @@ function cov2ap(options = {}) {
     // see @sap/cds/lib/srv/protocols/index.js#protocols4
 
     // @protocol
-    let atProtocol = def?.['@protocol']
+    let atProtocol = def?.["@protocol"];
     if (atProtocol) {
-      if (!Array.isArray(atProtocol)) atProtocol = [atProtocol]
-      return atProtocol.some(p => (typeof p === 'string' ? p : p.kind).startsWith('odata'))
+      if (!Array.isArray(atProtocol)) atProtocol = [atProtocol];
+      return atProtocol.some((p) => (typeof p === "string" ? p : p.kind).startsWith("odata"));
     }
 
     // @odata, @rest, ...
-    const atProtocolDirect = Object.keys(cds.env.protocols).find(p => def?.['@'+p])
-    if (atProtocolDirect) return atProtocolDirect.startsWith('odata')
+    const atProtocolDirect = Object.keys(cds.env.protocols).find((p) => def?.["@" + p]);
+    if (atProtocolDirect) return atProtocolDirect.startsWith("odata");
 
     // No protocol annotation found -> odata
-    return true
+    return true;
   }
 
   async function getMetadata(req, service) {
