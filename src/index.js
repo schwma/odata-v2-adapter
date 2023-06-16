@@ -198,19 +198,15 @@ function cov2ap(options = {}) {
     return fallback;
   };
 
-  function getCDS7ODataPathPrefix() {
-    return (cds.env?.protocols?.odata || cds.env?.protocols?.["odata-v4"])?.path || "";
-  }
+  // cds.middlewares in cds.version >= "7"
+  const oDataPathPrefix = (cds.env?.protocols?.odata || cds.env?.protocols?.["odata-v4"])?.path || "";
 
   const proxyCache = {};
   const router = express.Router();
   const base = optionWithFallback("base", "");
   const path = optionWithFallback("path", cds.version >= "7" ? "odata/v2" : "v2");
   const sourcePath = `${base ? "/" + base : ""}/${path}`;
-  const targetPath = optionWithFallback(
-    "targetPath",
-    cds.version >= "7" ? getCDS7ODataPathPrefix().replace(/^\//, "") : ""
-  );
+  const targetPath = optionWithFallback("targetPath", cds.version >= "7" ? oDataPathPrefix.replace(/^\//, "") : "");
   const rewritePath = `${base ? "/" + base : ""}${targetPath ? "/" : ""}${targetPath}`;
   const pathRewrite = { [`^${sourcePath}`]: rewritePath };
   let port = optionWithFallback("port", process.env.PORT || DefaultPort);
@@ -681,7 +677,7 @@ function cov2ap(options = {}) {
       serviceName = Object.keys(cds.services).find((service) => {
         let path = cds.services[service].path;
         if (path) {
-          if (cds.version >= "7") path = path.replace(new RegExp(`^${getCDS7ODataPathPrefix()}`), "");
+          if (cds.version >= "7") path = path.replace(new RegExp(`^${oDataPathPrefix}`), "");
           if (servicePath.toLowerCase().startsWith(normalizeSlashes(path).toLowerCase())) {
             servicePath = stripSlashes(path);
             return true;
@@ -733,7 +729,7 @@ function cov2ap(options = {}) {
     }
 
     // @odata, @rest, ...
-    const atProtocolDirect = Object.keys(cds.env.protocols).find((p) => def?.["@" + p]);
+    const atProtocolDirect = Object.keys(cds.env.protocols || {}).find((p) => def?.["@" + p]);
     if (atProtocolDirect) return atProtocolDirect.startsWith("odata");
 
     // No protocol annotation found -> odata
