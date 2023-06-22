@@ -1,0 +1,80 @@
+"use strict";
+
+const cds = require("@sap/cds");
+const supertest = require("supertest");
+
+const util = require("./_env/util/request");
+
+cds.test(__dirname + "/_env");
+
+let request;
+
+const expectGET = async path => {
+  await expectGETService(path);
+  await expectGETServiceData(`${path}/Header`);
+};
+
+const expectGETService = async path => {
+  const response = await util.callRead(request, path, {
+    accept: "application/json",
+  });
+  expect(response.body).toBeDefined();
+  expect(response.body).toEqual({
+    d: {
+      EntitySets: ["Header", "HeaderItem", "HeaderLine"],
+    },
+  });
+};
+
+const expectGETServiceData = async path => {
+  const response = await util.callRead(request, path, {
+    accept: "application/json",
+  });
+  expect(response.body).toBeDefined();
+  expect(response.body.d.results.length > 0).toEqual(true);
+};
+
+const expectRejectProtocol = async path => {
+  let response = await util.callRead(request, `${path}/$metadata`, {
+    accept: "application/json",
+  });
+  expect(response.body).toBeDefined();
+  expect(response.text).toEqual("Invalid service protocol. Only OData services supported");
+
+  response = await util.callRead(request, `${path}/Header`, {
+    accept: "application/json",
+  });
+  expect(response.body).toBeDefined();
+  expect(response.text).toEqual("Invalid service protocol. Only OData services supported");
+};
+
+(cds.version >= "7" ? describe : describe.skip)("CDS 7 protocols", () => {
+  beforeAll(async () => {
+    await global._init;
+    request = supertest(cds.app.server);
+  });
+
+  it("service with relative path", () => expectGET("/odata/v2/relative"));
+
+  it("service with absolute path", () => expectGET("/absolute"));
+
+  it("service with relative complex path", () => expectGETService("/odata/v2/relative/complex/path"));
+
+  it("service with absolute complex path", () => expectGET("/absolute/complex/path"));
+
+  it("service annotated with @odata", async () => expectGET("/odata/v2/atodata"));
+
+  it("reject service annotated with @rest", async () => expectRejectProtocol('/odata/v2/atrest'));
+
+  it("service annotated with @protocol: 'odata'", async () => expectGET('/odata/v2/atprotocolodata'));
+
+  it("service annotated with @protocol: 'rest'", async () => expectRejectProtocol('/odata/v2/atprotocolrest'));
+
+  it("service annotated with @protocol: ['odata']", async () => expectGET('/odata/v2/atprotocollistodata'));
+
+  it("service annotated with @protocol: ['rest']", async () => expectRejectProtocol('/odata/v2/atprotocollistrest'));
+
+  it("service annotated with @protocol: [{ kind: 'odata', path: 'relative2' }]", async () => expectGET('/odata/v2/relative2'));
+
+  it("service annotated with @protocol: [{ kind: 'odata', path: '/absolute2' }]", async () => expectGET('/absolute2'));
+});
