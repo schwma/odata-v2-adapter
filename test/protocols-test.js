@@ -48,7 +48,9 @@ const expectRejectProtocol = async (request, path) => {
   expect(response.text).toEqual("Invalid service protocol. Only OData services supported");
 };
 
-(cds.version >= "7" ? describe : describe.skip)("CDS 7 protocols", () => {
+const describe = cds.version >= "7" ? global.describe : global.xdescribe;
+
+describe("CDS 7 protocols", () => {
   beforeAll(async () => {
     await global._init;
     request = supertest(cds.app.server);
