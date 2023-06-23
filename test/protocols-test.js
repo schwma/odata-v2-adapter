@@ -62,11 +62,11 @@ describe("CDS 7 protocols", () => {
 
   it("service with relative path", () => expectGET(request, "/odata/v2/relative"));
 
-  it("service with absolute path", () => expectGET(request, "/absolute"));
+  it("service with absolute path", () => expectGET(request, "/odata/v2/absolute"));
 
   it("service with relative complex path", () => expectGETService(request, "/odata/v2/relative/complex/path"));
 
-  it("service with absolute complex path", () => expectGET(request, "/absolute/complex/path"));
+  it("service with absolute complex path", () => expectGET(request, "/odata/v2/absolute/complex/path"));
 
   it("service annotated with @odata", async () => expectGET(request, "/odata/v2/atodata"));
 
@@ -82,5 +82,5 @@ describe("CDS 7 protocols", () => {
 
   it("service annotated with @protocol: [{ kind: 'odata', path: 'relative2' }]", async () => expectGET(request, '/odata/v2/relative2'));
 
-  it("service annotated with @protocol: [{ kind: 'odata', path: '/absolute2' }]", async () => expectGET(request, '/absolute2'));
+  it("service annotated with @protocol: [{ kind: 'odata', path: '/absolute2' }]", async () => expectGET(request, '/odata/v2/absolute2'));
 });
