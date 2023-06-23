@@ -1,5 +1,9 @@
 "use strict";
 
+// process.env.CDS_REQUIRES_MIDDLEWARES = false;
+// process.env.CDS_FEATURES_SERVE__ON__ROOT = false;
+// process.env.CDS_PROTOCOLS = JSON.stringify({ 'odata-v4': { path: '/custom/odata/path' }});
+
 const cds = require("@sap/cds");
 const supertest = require("supertest");
 
