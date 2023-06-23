@@ -9,12 +9,12 @@ cds.test(__dirname + "/_env");
 
 let request;
 
-const expectGET = async path => {
-  await expectGETService(path);
-  await expectGETServiceData(`${path}/Header`);
+const expectGET = async (request, path) => {
+  await expectGETService(request, path);
+  await expectGETServiceData(request, `${path}/Header`);
 };
 
-const expectGETService = async path => {
+const expectGETService = async (request, path) => {
   const response = await util.callRead(request, path, {
     accept: "application/json",
   });
@@ -26,7 +26,7 @@ const expectGETService = async path => {
   });
 };
 
-const expectGETServiceData = async path => {
+const expectGETServiceData = async (request, path) => {
   const response = await util.callRead(request, path, {
     accept: "application/json",
   });
@@ -34,7 +34,7 @@ const expectGETServiceData = async path => {
   expect(response.body.d.results.length > 0).toEqual(true);
 };
 
-const expectRejectProtocol = async path => {
+const expectRejectProtocol = async (request, path) => {
   let response = await util.callRead(request, `${path}/$metadata`, {
     accept: "application/json",
   });
@@ -54,27 +54,27 @@ const expectRejectProtocol = async path => {
     request = supertest(cds.app.server);
   });
 
-  it("service with relative path", () => expectGET("/odata/v2/relative"));
+  it("service with relative path", () => expectGET(request, "/odata/v2/relative"));
 
-  it("service with absolute path", () => expectGET("/absolute"));
+  it("service with absolute path", () => expectGET(request, "/absolute"));
 
-  it("service with relative complex path", () => expectGETService("/odata/v2/relative/complex/path"));
+  it("service with relative complex path", () => expectGETService(request, "/odata/v2/relative/complex/path"));
 
-  it("service with absolute complex path", () => expectGET("/absolute/complex/path"));
+  it("service with absolute complex path", () => expectGET(request, "/absolute/complex/path"));
 
-  it("service annotated with @odata", async () => expectGET("/odata/v2/atodata"));
+  it("service annotated with @odata", async () => expectGET(request, "/odata/v2/atodata"));
 
-  it("reject service annotated with @rest", async () => expectRejectProtocol('/odata/v2/atrest'));
+  it("reject service annotated with @rest", async () => expectRejectProtocol(request, '/odata/v2/atrest'));
 
-  it("service annotated with @protocol: 'odata'", async () => expectGET('/odata/v2/atprotocolodata'));
+  it("service annotated with @protocol: 'odata'", async () => expectGET(request, '/odata/v2/atprotocolodata'));
 
-  it("service annotated with @protocol: 'rest'", async () => expectRejectProtocol('/odata/v2/atprotocolrest'));
+  it("service annotated with @protocol: 'rest'", async () => expectRejectProtocol(request, '/odata/v2/atprotocolrest'));
 
-  it("service annotated with @protocol: ['odata']", async () => expectGET('/odata/v2/atprotocollistodata'));
+  it("service annotated with @protocol: ['odata']", async () => expectGET(request, '/odata/v2/atprotocollistodata'));
 
-  it("service annotated with @protocol: ['rest']", async () => expectRejectProtocol('/odata/v2/atprotocollistrest'));
+  it("service annotated with @protocol: ['rest']", async () => expectRejectProtocol(request, '/odata/v2/atprotocollistrest'));
 
-  it("service annotated with @protocol: [{ kind: 'odata', path: 'relative2' }]", async () => expectGET('/odata/v2/relative2'));
+  it("service annotated with @protocol: [{ kind: 'odata', path: 'relative2' }]", async () => expectGET(request, '/odata/v2/relative2'));
 
-  it("service annotated with @protocol: [{ kind: 'odata', path: '/absolute2' }]", async () => expectGET('/absolute2'));
+  it("service annotated with @protocol: [{ kind: 'odata', path: '/absolute2' }]", async () => expectGET(request, '/absolute2'));
 });
