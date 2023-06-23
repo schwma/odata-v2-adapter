@@ -264,27 +264,23 @@ exports[`integration-main GET with parameters (header - full circle) - parameter
 exports[`integration-main GET with parameters (header - full circle) - parameters 2`] = `
 {
   "d": {
-    "__next": "http://localhost:00000/v2/main/HeaderParameters(STOCK=1,CURRENCY='EUR')/Set?$skiptoken=1000",
     "results": [
       {
         "CURRENCY_PARAM": "EUR",
-        "ID": "002901d4-a6ba-4ba3-9d93-50d53818e221",
         "Parameters": {
           "__deferred": {
-            "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')/Parameters",
+            "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')/Parameters",
           },
         },
         "STOCK_PARAM": 1,
         "__metadata": {
           "type": "test.MainService.HeaderParametersType",
-          "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')",
+          "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')",
         },
         "country": null,
-        "createdAt": "/Date(1665793067350+0000)/",
         "createdBy": "anonymous",
         "currency": "EUR",
         "description": null,
-        "modifiedAt": "/Date(1665793067350+0000)/",
         "modifiedBy": "anonymous",
         "name": null,
         "price": null,
@@ -299,23 +295,20 @@ exports[`integration-main GET with parameters (header - full circle) - parameter
 {
   "d": {
     "CURRENCY_PARAM": "EUR",
-    "ID": "002901d4-a6ba-4ba3-9d93-50d53818e221",
     "Parameters": {
       "__deferred": {
-        "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')/Parameters",
+        "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')/Parameters",
       },
     },
     "STOCK_PARAM": 1,
     "__metadata": {
       "type": "test.MainService.HeaderParametersType",
-      "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')",
+      "uri": "http://localhost:00000/v2/main/HeaderParametersSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')",
     },
     "country": null,
-    "createdAt": "/Date(1665793067350+0000)/",
     "createdBy": "anonymous",
     "currency": "EUR",
     "description": null,
-    "modifiedAt": "/Date(1665793067350+0000)/",
     "modifiedBy": "anonymous",
     "name": null,
     "price": null,
@@ -363,27 +356,23 @@ exports[`integration-main GET with parameters (header - full circle) - set 1`] =
 exports[`integration-main GET with parameters (header - full circle) - set 2`] = `
 {
   "d": {
-    "__next": "http://localhost:00000/v2/main/HeaderSet(STOCK=1,CURRENCY='EUR')/Set?$skiptoken=1000",
     "results": [
       {
         "CURRENCY_PARAM": "EUR",
-        "ID": "002901d4-a6ba-4ba3-9d93-50d53818e221",
         "Parameters": {
           "__deferred": {
-            "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')/Parameters",
+            "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')/Parameters",
           },
         },
         "STOCK_PARAM": 1,
         "__metadata": {
           "type": "test.MainService.HeaderSetType",
-          "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')",
+          "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')",
         },
         "country": null,
-        "createdAt": "/Date(1665793067350+0000)/",
         "createdBy": "anonymous",
         "currency": "EUR",
         "description": null,
-        "modifiedAt": "/Date(1665793067350+0000)/",
         "modifiedBy": "anonymous",
         "name": null,
         "price": null,
@@ -398,23 +387,20 @@ exports[`integration-main GET with parameters (header - full circle) - set 3`] =
 {
   "d": {
     "CURRENCY_PARAM": "EUR",
-    "ID": "002901d4-a6ba-4ba3-9d93-50d53818e221",
     "Parameters": {
       "__deferred": {
-        "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')/Parameters",
+        "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')/Parameters",
       },
     },
     "STOCK_PARAM": 1,
     "__metadata": {
       "type": "test.MainService.HeaderSetType",
-      "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'002901d4-a6ba-4ba3-9d93-50d53818e221')",
+      "uri": "http://localhost:00000/v2/main/HeaderSetSet(STOCK=1,CURRENCY='EUR',ID=guid'<ID>')",
     },
     "country": null,
-    "createdAt": "/Date(1665793067350+0000)/",
     "createdBy": "anonymous",
     "currency": "EUR",
     "description": null,
-    "modifiedAt": "/Date(1665793067350+0000)/",
     "modifiedBy": "anonymous",
     "name": null,
     "price": null,
